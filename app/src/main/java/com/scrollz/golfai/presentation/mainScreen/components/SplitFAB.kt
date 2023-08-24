@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SplitFAB(
     modifier: Modifier = Modifier,
-    onFirstClick: () -> Unit = {},
-    onSecondClick: () -> Unit = {}
+    startRecording: () -> Unit = {},
+    pickVideo: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -74,7 +74,8 @@ fun SplitFAB(
                         )
                     },
                     onClick = {
-                        // TODO
+                        isSplit = !isSplit
+                        startRecording()
                     }
                 )
                 ExtendedFloatingActionButton(
@@ -101,7 +102,8 @@ fun SplitFAB(
                         )
                     },
                     onClick = {
-                        // TODO
+                        isSplit = !isSplit
+                        pickVideo()
                     }
                 )
             }
