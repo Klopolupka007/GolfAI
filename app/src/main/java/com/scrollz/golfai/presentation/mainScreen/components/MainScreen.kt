@@ -2,22 +2,24 @@ package com.scrollz.golfai.presentation.mainScreen.components
 
 import android.Manifest
 import android.content.ContentValues
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -33,14 +35,21 @@ import java.util.Locale
 fun MainScreen(
     modifier: Modifier = Modifier,
     state: MainState,
-    onEvent: (MainEvent) -> Unit
+    onEvent: (MainEvent) -> Unit,
+    onReportClick: (Int) -> Unit
 ) {
     val context = LocalContext.current
+    var uri: Uri? = null
 
     val pickVideoResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            Log.e("recording", "${uri?.encodedPath}")
+        onResult = { result ->
+            result?.let { uri ->
+//                onEvent(MainEvent.UpdateBitmap(VideoProcessor.detectPose(context, uri)))
+                Log.e("recording", "1")
+                onEvent(MainEvent.Process(uri))
+                Log.e("recording", "2")
+            }
         }
     )
 
@@ -48,7 +57,13 @@ fun MainScreen(
         contract = RecordVideoContract(),
         onResult = { success ->
             if (success) {
-                Log.e("recording", "success")
+                uri?.let { uri ->
+//                    val test = Test()
+//                    onEvent(MainEvent.UpdateBitmap(test.run2(context, uri)))
+                    Log.e("recording", "1")
+                    onEvent(MainEvent.Process(uri))
+                    Log.e("recording", "2")
+                }
             }
         }
     )
@@ -70,7 +85,7 @@ fun MainScreen(
 
                 val resolver = context.contentResolver
                 val videoCollection = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                val uri = resolver.insert(videoCollection, contentValues)
+                uri = resolver.insert(videoCollection, contentValues)
 
                 captureVideoResultLauncher.launch(uri)
             }
@@ -97,21 +112,29 @@ fun MainScreen(
                 startRecording = startRecording,
                 pickVideo = pickVideo
             )
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
         ) {
-            Text(
-                text = "Список",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            items(20) {
+                ReportItem(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onReportClick(it) },
+                    index = it + 1,
+                    dateTime = "25.08.2023 14:20",
+                    deleteReport = {}
+                )
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    thickness = 0.5.dp,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
         }
     }
 }

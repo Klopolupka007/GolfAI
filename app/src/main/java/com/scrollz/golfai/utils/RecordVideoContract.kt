@@ -11,7 +11,7 @@ class RecordVideoContract: ActivityResultContract<Uri, Boolean>() {
     override fun createIntent(context: Context, input: Uri): Intent {
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 6)
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 20)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, input)
         return intent
     }

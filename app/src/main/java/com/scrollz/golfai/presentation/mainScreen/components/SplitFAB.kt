@@ -36,7 +36,7 @@ fun SplitFAB(
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.End,
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         var isSplit by remember { mutableStateOf(false) }
@@ -47,7 +47,7 @@ fun SplitFAB(
             exit = fadeOut(tween(200))
         ) {
             Column (
-                horizontalAlignment = Alignment.End,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 ExtendedFloatingActionButton(

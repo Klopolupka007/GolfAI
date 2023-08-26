@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.scrollz.golfai"
-        minSdk 21
+        minSdk 24
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose true
+        mlModelBinding true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.1'
@@ -83,6 +84,21 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
+
+    //ONNX Runtime
+    implementation "com.microsoft.onnxruntime:onnxruntime-android:1.15.1"
+
+    // FFmpeg
+    implementation 'com.arthenica:mobile-ffmpeg-full:4.4'
+
+    // Coil Compose
+    implementation "io.coil-kt:coil-compose:2.4.0"
+
+    // TFLite
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.4'
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.4.4'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.13.0'
 }
