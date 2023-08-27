@@ -116,7 +116,7 @@ fun TechniqueErrors(
             if (state.legsError) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "Смещение головы",
+                    text = "- Смещение головы",
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSecondary
                 )
