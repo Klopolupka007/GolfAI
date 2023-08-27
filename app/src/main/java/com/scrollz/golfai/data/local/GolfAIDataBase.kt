@@ -6,7 +6,7 @@ import com.scrollz.golfai.domain.model.Report
 
 @Database(
     entities = [Report::class],
-    version = 1
+    version = 5
 )
 
 abstract class GolfAIDataBase: RoomDatabase() {

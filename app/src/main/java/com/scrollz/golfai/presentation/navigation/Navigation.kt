@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.scrollz.golfai.presentation.mainScreen.MainViewModel
 import com.scrollz.golfai.presentation.mainScreen.components.MainScreen
+import com.scrollz.golfai.presentation.reportScreen.ReportViewModel
 import com.scrollz.golfai.presentation.reportScreen.components.ReportScreen
 
 @Composable
@@ -54,7 +55,11 @@ fun Navigation() {
                     }
                 )
             ) {
+                val reportViewModel = hiltViewModel<ReportViewModel>()
+                val reportState by reportViewModel.state.collectAsStateWithLifecycle()
                 ReportScreen(
+                    state = reportState,
+                    onEvent = reportViewModel::onEvent,
                     navigateBack = { navController.popBackStack() }
                 )
             }

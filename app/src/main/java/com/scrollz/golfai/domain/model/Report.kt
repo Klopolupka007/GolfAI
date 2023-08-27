@@ -7,7 +7,13 @@ import androidx.room.PrimaryKey
 @Immutable
 @Entity(tableName = "report")
 data class Report(
-    @PrimaryKey(autoGenerate = true) val id: Int = -1,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val dateTime: String,
-    val directory: String
+    val elbowCornerErrorP1: Boolean = false,
+    val elbowCornerErrorP7: Boolean = false,
+    val kneeCornerErrorP1: Boolean = false,
+    val kneeCornerErrorP7: Boolean = false,
+    val headError: Boolean = false,
+    val legsError: Boolean = false,
+    val orientation: Int
 )

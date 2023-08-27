@@ -34,9 +34,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGolfAIRepository(
-        db: GolfAIDataBase
+        videoProcessor: VideoProcessor,
+        db: GolfAIDataBase,
     ): GolfAIRepository {
-        return GolfAIRepositoryImpl(db)
+        return GolfAIRepositoryImpl(videoProcessor, db)
     }
 
 }

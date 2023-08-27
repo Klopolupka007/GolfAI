@@ -6,7 +6,7 @@ import com.scrollz.golfai.utils.Status
 
 @Immutable
 data class MainState(
-    val screenStatus: Status = Status.Loading,
+    val screenStatus: Status = Status.Success,
 
-    val reports: List<Report> = emptyList(),
+    val reports: List<Report> = emptyList()
 )

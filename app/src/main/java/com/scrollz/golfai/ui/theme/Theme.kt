@@ -15,6 +15,9 @@ private val darkColorScheme = darkColorScheme(
     background = DarkGrayD,
     onBackground = WhiteD,
 
+    surface = GrayD,
+    onSurface = WhiteD,
+
     inverseSurface = WhiteD,
     inverseOnSurface = DarkGrayD,
 
@@ -29,6 +32,9 @@ private val darkColorScheme = darkColorScheme(
 private val lightColorScheme = lightColorScheme(
     background = WhiteL,
     onBackground = DarkGrayL,
+
+    surface = WhiteL,
+    onSurface = DarkGrayL,
 
     inverseSurface = DarkGrayL,
     inverseOnSurface = WhiteL,
