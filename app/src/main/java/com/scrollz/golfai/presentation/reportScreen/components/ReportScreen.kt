@@ -68,7 +68,8 @@ fun ReportScreen(
                     TechniqueErrors(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .shadow(shadowElevation, RoundedCornerShape(32.dp))
+                            .shadow(shadowElevation, RoundedCornerShape(32.dp)),
+                        state = state
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     KeyFrames(

@@ -43,7 +43,7 @@ fun KeyFrames(
             Spacer(modifier = Modifier.height(24.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Ключевые кадры",
+                text = "Позиции",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center

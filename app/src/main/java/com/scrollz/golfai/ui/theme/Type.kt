@@ -15,12 +15,13 @@ val Typography = Typography(
     titleMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp
+        fontSize = 20.sp
     ),
     titleSmall = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp
+        fontWeight = FontWeight.W400,
+        fontSize = 16.sp,
+        letterSpacing = 0.25.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,

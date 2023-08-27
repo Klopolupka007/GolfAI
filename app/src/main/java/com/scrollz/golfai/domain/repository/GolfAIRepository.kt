@@ -6,6 +6,7 @@ import com.scrollz.golfai.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface GolfAIRepository {
+
     fun getReports(): Flow<List<Report>>
 
     suspend fun getReport(id: Int): Report?

@@ -71,6 +71,9 @@ class ReportViewModel @Inject constructor(
                         legsError = report.legsError,
                         images = images,
                         screenStatus = Status.Success,
+                        noErrors = !report.elbowCornerErrorP1 && !report.elbowCornerErrorP7 &&
+                                    !report.kneeCornerErrorP1 && !report.kneeCornerErrorP7 &&
+                                    !report.legsError && !report.headError,
                     )
                 }
             } else {

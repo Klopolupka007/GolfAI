@@ -10,4 +10,8 @@ fun String.toFineDateTime(): String {
     return date?.let { outputFormat.format(it) } ?: ""
 }
 
-fun String.toLastNumber(): String = this.drop(this.indexOfLast { it == '_' } + 1)
+fun String.toLastNumber(): String {
+    val l = this.indexOfLast { it == '_' }
+    val r = this.indexOfLast { it == '.' }
+    return this.slice(l+1 until r)
+}

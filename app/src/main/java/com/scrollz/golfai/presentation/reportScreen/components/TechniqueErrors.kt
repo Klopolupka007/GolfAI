@@ -15,10 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.scrollz.golfai.presentation.reportScreen.ReportState
 
 @Composable
 fun TechniqueErrors(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    state: ReportState
 ) {
     Surface(
         modifier = modifier,
@@ -32,34 +34,93 @@ fun TechniqueErrors(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Технические ошибки",
+                text = "Ракурс съемки",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "",
+                text = when (state.orientation) {
+                    -1 -> "Сбоку, взгляд направлен влево"
+                    0 -> "Лицом к камере"
+                    1 -> "Сбоку, взгляд направлен вправо"
+                    else -> ""
+                },
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSecondary
             )
-            Divider()
-            Text(
-                text = "",
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSecondary
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider(
+                thickness = 0.5.dp,
+                color = MaterialTheme.colorScheme.outline
             )
-            Spacer(modifier = Modifier.height(24.dp))
+
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "",
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSecondary
+                modifier = Modifier.fillMaxWidth(),
+                text = "Базовые ошибки",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            Spacer(modifier = Modifier.height(4.dp))
+            if (state.noErrors) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "Отсутствуют",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+            if (state.elbowCornerErrorP1) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "- Сгиб локтя относительно туловища в начальной позиции",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+            if (state.elbowCornerErrorP7) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "- Сгиб локтя относительно туловища в момент удара",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+            if (state.kneeCornerErrorP1) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "- Сгиб коленей в начальной позиции",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+            if (state.kneeCornerErrorP7) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "- Сгиб коленей в момент удара",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+            if (state.headError) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "- Ширина постановки ног",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+            if (state.legsError) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "Смещение головы",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
         }
     }
 }

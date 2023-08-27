@@ -20,5 +20,7 @@ data class ReportState(
     val kneeCornerErrorP1: Boolean = false,
     val kneeCornerErrorP7: Boolean = false,
     val headError: Boolean = false,
-    val legsError: Boolean = false
+    val legsError: Boolean = false,
+
+    val noErrors: Boolean = true
 )

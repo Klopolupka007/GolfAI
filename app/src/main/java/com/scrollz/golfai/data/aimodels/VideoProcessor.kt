@@ -13,11 +13,9 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import com.arthenica.mobileffmpeg.FFmpeg
 import com.scrollz.golfai.domain.model.Report
 import com.scrollz.golfai.ml.LiteModelMovenetSingleposeThunderTfliteFloat164
-import com.scrollz.golfai.utils.toLastNumber
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,14 +28,10 @@ import java.io.File
 import java.nio.FloatBuffer
 import javax.inject.Inject
 
-
 class VideoProcessor @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     suspend fun processVideo(videoUri: Uri, dateTime: String): Report {
-
-        Log.e("predict", "${System.currentTimeMillis()}")
-
         val framesFolder = withContext(Dispatchers.IO) {
             val cacheDir = context.cacheDir
             val outputFolder = File(cacheDir, FRAMES_DIRECTORY)
@@ -55,18 +49,10 @@ class VideoProcessor @Inject constructor(
         }
 
         convertVideoToFrames(videoUri, framesFolder, fullSizeFramesFolder)
-
         val (videoData, numberOfFrames) = convertFramesToData(framesFolder)
-
-        Log.e("predict", numberOfFrames.toString())
         val keyFrames = detectKeyFrames(videoData, numberOfFrames)
-
         val posesData = detectPoses(keyFrames, fullSizeFramesFolder, dateTime)
-        Log.e("predict", "FULL_SUC")
-
         val orientation = detectOrientation(posesData)
-
-        Log.e("predict", "FULL_SUC_89".toLastNumber())
 
         return if (orientation == 0) { // Лицом
             val errors = detectErrorsFace(posesData)
@@ -130,7 +116,6 @@ class VideoProcessor @Inject constructor(
         val files = framesFolder.listFiles()?.apply { sortBy { it.name } }
         return if (files != null) {
             withContext(Dispatchers.Default) {
-                Log.e("frame", files.size.toString())
                 val videoData = FloatBuffer.allocate(files.size * DIM_PIXEL_SIZE * IMAGE_WIDTH * IMAGE_HEIGHT)
                 videoData.rewind()
 
@@ -162,7 +147,6 @@ class VideoProcessor @Inject constructor(
 
     private suspend fun detectKeyFrames(videoData: FloatBuffer, numberOfFrames: Int): IntArray {
         return withContext(Dispatchers.Default) {
-            Log.e("predict", "${System.currentTimeMillis()}")
             val assetManager = context.assets
             val env = OrtEnvironment.getEnvironment()
             val session = env.createSession(assetManager.open(KEY_FRAMES_DETECTOR_MODEL_PATH).readBytes())
@@ -172,15 +156,11 @@ class VideoProcessor @Inject constructor(
             val tensor = OnnxTensor.createTensor(env, videoData, shape)
 
             val result = session.run(mapOf(inputName to tensor))
-            Log.e("predict", "1#${System.currentTimeMillis()}")
             val output = (result[0].value) as LongArray
 
             env.close()
 
-            Log.e("predict", output.map { it.toInt() }.toString())
-
             output.map { it.toInt() }.toIntArray()
-
         }
     }
 
@@ -253,8 +233,6 @@ class VideoProcessor @Inject constructor(
 
             env.close()
 
-            Log.e("orientation", output.toList().toString())
-
             if(output[0] == 0.0f) {
                 0     // Лицом
             } else {
@@ -283,8 +261,6 @@ class VideoProcessor @Inject constructor(
 
             env.close()
 
-            Log.e("face", output.toList().toString())
-
             output
         }
     }
@@ -304,8 +280,6 @@ class VideoProcessor @Inject constructor(
             val output = (result[0].value) as FloatArray
 
             env.close()
-
-            Log.e("side", output.toList().toString())
 
             output
         }
@@ -338,8 +312,8 @@ class VideoProcessor @Inject constructor(
             canvas.drawBitmap(bitmap, 0f, 0f, null)
 
             val paint = Paint()
-            paint.color = Color.RED
-            paint.strokeWidth = 5.0f
+            paint.color = Color.BLUE
+            paint.strokeWidth = 3.0f
 
             canvas.drawLine(skeletonX[0], skeletonY[0], skeletonX[1], skeletonY[1], paint)
             canvas.drawLine(skeletonX[0], skeletonY[0], skeletonX[2], skeletonY[2], paint)
@@ -360,7 +334,7 @@ class VideoProcessor @Inject constructor(
             canvas.drawLine(skeletonX[11], skeletonY[11], skeletonX[13], skeletonY[13], paint)
             canvas.drawLine(skeletonX[13], skeletonY[13], skeletonX[15], skeletonY[15], paint)
 
-            paint.strokeWidth = 8.0f
+            paint.strokeWidth = 6.0f
 
             for (i in skeletonX.indices) { canvas.drawPoint(skeletonX[i], skeletonY[i], paint) }
 
